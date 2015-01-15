@@ -4,9 +4,12 @@ import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
@@ -16,6 +19,14 @@ import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 
+// TODO: Add case for when GPS is not available
+// TODO: Add case for when Network is not available (to get results not coordinates)
+// TODO: Add getBestProvider()
+// TODO: Add last known location for cache
+// TODO: Move all the location stuff into a method and just call it in onCreate. Like split it all up.
+// TODO: Move all the OkHttp stuff into a method and call it in onCreate
+// TODO: Add dialog for when GPS AND Network are not available (if we use getBestProvider, we shouldn't really run into this problem)
+//          Say something like "both network and gps are not available. reverting to last known location"
 
 public class MainActivity extends ActionBarActivity {
 
@@ -31,7 +42,7 @@ public class MainActivity extends ActionBarActivity {
 
         // Get Location
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        final Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         mLatitude = location.getLatitude();
         mLongitude = location.getLongitude();
 
@@ -65,33 +76,49 @@ public class MainActivity extends ActionBarActivity {
         String apiKey = "ba71a57df25168e291029d6b1547c643";
         String forecastUrl = "https://api.forecast.io/forecast/" + apiKey + "/" + mLatitude + "," + mLongitude;
 
-        // OkHttp stuff
-        OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder()
-                .url(forecastUrl)
-                .build();
-        Call call = client.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Request request, IOException e) {
+        if(isNetworkAvailable()) {
+            // OkHttp stuff
+            OkHttpClient client = new OkHttpClient();
+            Request request = new Request.Builder()
+                    .url(forecastUrl)
+                    .build();
+            Call call = client.newCall(request);
+            call.enqueue(new Callback() {
+                @Override
+                public void onFailure(Request request, IOException e) {
 
-            }
-
-            @Override
-            public void onResponse(Response response) throws IOException {
-                try {
-                    Log.v(TAG, response.body().string());
-                    if(response.isSuccessful()) {
-                    } else {
-                        alertUserAboutError();
-                    }
-                } catch (IOException e) {
-                    Log.e(TAG, "Exception caught: ", e);
                 }
-            }
-        });
+
+                @Override
+                public void onResponse(Response response) throws IOException {
+                    try {
+                        Log.v(TAG, response.body().string());
+                        if (response.isSuccessful()) {
+                        } else {
+                            alertUserAboutError();
+                        }
+                    } catch (IOException e) {
+                        Log.e(TAG, "Exception caught: ", e);
+                    }
+                }
+            });
+        } else {
+            Toast.makeText(this, "The network is unavailable", Toast.LENGTH_SHORT).show();
+        }
 
         Log.d(TAG, "Main UI code is running!");
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+
+        boolean isAvailable = false;
+        if(networkInfo != null && networkInfo.isConnected()) {
+            isAvailable = true;
+        }
+
+        return isAvailable;
     }
 
     private void alertUserAboutError() {
