@@ -23,8 +23,6 @@ import java.io.IOException;
 // TODO: Add case for when Network is not available (to get results not coordinates)
 // TODO: Add getBestProvider()
 // TODO: Add last known location for cache
-// TODO: Move all the location stuff into a method and just call it in onCreate. Like split it all up.
-// TODO: Move all the OkHttp stuff into a method and call it in onCreate
 // TODO: Add dialog for when GPS AND Network are not available (if we use getBestProvider, we shouldn't really run into this problem)
 //          Say something like "both network and gps are not available. reverting to last known location"
 
@@ -40,6 +38,22 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        getLocation();
+
+        // make call to server
+        String apiKey = "ba71a57df25168e291029d6b1547c643";
+        String forecastUrl = "https://api.forecast.io/forecast/" + apiKey + "/" + mLatitude + "," + mLongitude;
+
+        if(isNetworkAvailable()) {
+            okConnect(forecastUrl);
+        } else {
+            Toast.makeText(this, "The network is unavailable", Toast.LENGTH_SHORT).show();
+        }
+
+        Log.d(TAG, "Main UI code is running!");
+    }
+
+    private void getLocation() {
         // Get Location
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         final Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -71,42 +85,34 @@ public class MainActivity extends ActionBarActivity {
         };
 
         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, locationListener);
+    }
 
-        // make call to server
-        String apiKey = "ba71a57df25168e291029d6b1547c643";
-        String forecastUrl = "https://api.forecast.io/forecast/" + apiKey + "/" + mLatitude + "," + mLongitude;
+    private void okConnect(String url) {
+        // OkHttp stuff
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
 
-        if(isNetworkAvailable()) {
-            // OkHttp stuff
-            OkHttpClient client = new OkHttpClient();
-            Request request = new Request.Builder()
-                    .url(forecastUrl)
-                    .build();
-            Call call = client.newCall(request);
-            call.enqueue(new Callback() {
-                @Override
-                public void onFailure(Request request, IOException e) {
+            }
 
-                }
-
-                @Override
-                public void onResponse(Response response) throws IOException {
-                    try {
-                        Log.v(TAG, response.body().string());
-                        if (response.isSuccessful()) {
-                        } else {
-                            alertUserAboutError();
-                        }
-                    } catch (IOException e) {
-                        Log.e(TAG, "Exception caught: ", e);
+            @Override
+            public void onResponse(Response response) throws IOException {
+                try {
+                    Log.v(TAG, response.body().string());
+                    if (response.isSuccessful()) {
+                    } else {
+                        alertUserAboutError();
                     }
+                } catch (IOException e) {
+                    Log.e(TAG, "Exception caught: ", e);
                 }
-            });
-        } else {
-            Toast.makeText(this, "The network is unavailable", Toast.LENGTH_SHORT).show();
-        }
-
-        Log.d(TAG, "Main UI code is running!");
+            }
+        });
     }
 
     private boolean isNetworkAvailable() {
