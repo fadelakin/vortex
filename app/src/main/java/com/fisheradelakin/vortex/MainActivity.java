@@ -1,6 +1,8 @@
 package com.fisheradelakin.vortex;
 
 import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -18,6 +20,8 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 // TODO: Add case for when GPS is not available
 // TODO: Add case for when Network is not available (to get results not coordinates)
@@ -85,6 +89,17 @@ public class MainActivity extends ActionBarActivity {
         };
 
         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, locationListener);
+
+        // Print out city
+        Geocoder gcd = new Geocoder(this, Locale.getDefault());
+        try {
+            List<Address> addresses = gcd.getFromLocation(mLatitude, mLongitude, 1);
+            if(addresses.size() > 0) {
+                System.out.println(addresses.get(0).getLocality()); // change this to update location textviewc
+            }
+        } catch (IOException e) {
+            Log.e(TAG, "Exception caught: ", e);
+        }
     }
 
     private void okConnect(String url) {
@@ -105,6 +120,7 @@ public class MainActivity extends ActionBarActivity {
                 try {
                     Log.v(TAG, response.body().string());
                     if (response.isSuccessful()) {
+                        // do something
                     } else {
                         alertUserAboutError();
                     }
