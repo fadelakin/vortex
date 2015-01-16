@@ -136,7 +136,7 @@
         android:textSize="18sp"
         android:gravity="center_horizontal"/>
 
-    <ImageView
+    <!--<ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/refreshImageView"
@@ -151,5 +151,5 @@
         android:id="@+id/progressBar"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_alignBottom="@+id/refreshImageView"/>
+        android:layout_alignBottom="@+id/refreshImageView"/> -->
 </RelativeLayout>
