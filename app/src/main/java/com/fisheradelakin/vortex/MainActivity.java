@@ -11,6 +11,7 @@ import android.net.NetworkInfo;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +27,9 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 // TODO: Add case for when GPS is not available
 // TODO: Add case for when Network is not available (to get results not coordinates)
@@ -43,10 +47,19 @@ public class MainActivity extends ActionBarActivity {
 
     private CurrentWeather mCurrentWeather;
 
+    // Butter Knife view injections
+    @InjectView(R.id.timeLabel) TextView mTimeLabel;
+    @InjectView(R.id.temperatureLabel) TextView mTemperatureLabel;
+    @InjectView(R.id.humidityLabel) TextView mHumidityLabel;
+    @InjectView(R.id.summaryLabel) TextView mSummaryLabel;
+    @InjectView(R.id.iconImageView) ImageView mIconImageView;
+    @InjectView(R.id.locationLabel) TextView locality;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.inject(this);
 
         getLocation();
 
@@ -101,8 +114,7 @@ public class MainActivity extends ActionBarActivity {
         try {
             List<Address> addresses = gcd.getFromLocation(mLatitude, mLongitude, 1);
             if(addresses.size() > 0) {
-                // change textview to user's current location
-                TextView locality = (TextView) findViewById(R.id.locationLabel);
+                // change location label to user's current location
                 String getLocality = addresses.get(0).getLocality();
                 locality.setText(getLocality);
             }

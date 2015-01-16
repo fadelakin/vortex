@@ -16,5 +16,6 @@
     <string name="temperature_value">100</string>
     <string name="precip_text">RAIN/SNOW?</string>
     <string name="precip_value">100%</string>
+    <string name="summary_default_text">Stormy with a chance of meatballs</string>
 
 </resources>
