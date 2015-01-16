@@ -1,6 +1,7 @@
 package com.fisheradelakin.vortex;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -11,7 +12,9 @@ import android.net.NetworkInfo;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,6 +57,8 @@ public class MainActivity extends ActionBarActivity {
     @InjectView(R.id.summaryLabel) TextView mSummaryLabel;
     @InjectView(R.id.iconImageView) ImageView mIconImageView;
     @InjectView(R.id.locationLabel) TextView locality;
+    @InjectView(R.id.refreshImageView) ImageView mRefreshImageView;
+    @InjectView(R.id.progressBar) ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,19 +66,37 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
 
+        mProgressBar.setVisibility(View.INVISIBLE);
+
         getLocation();
 
         // make call to server
         String apiKey = "ba71a57df25168e291029d6b1547c643";
-        String forecastUrl = "https://api.forecast.io/forecast/" + apiKey + "/" + mLatitude + "," + mLongitude;
+        final String forecastUrl = "https://api.forecast.io/forecast/" + apiKey + "/" + mLatitude + "," + mLongitude;
 
         if(isNetworkAvailable()) {
-            okConnect(forecastUrl);
+            refresh();
+            getForecast(forecastUrl);
         } else {
             Toast.makeText(this, "The network is unavailable", Toast.LENGTH_SHORT).show();
         }
 
-        Log.d(TAG, "Main UI code is running!");
+        mRefreshImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getForecast(forecastUrl);
+            }
+        });
+    }
+
+    private void refresh() {
+        if(mProgressBar.getVisibility() == View.INVISIBLE) {
+            mProgressBar.setVisibility(View.VISIBLE);
+            mRefreshImageView.setVisibility(View.INVISIBLE);
+        } else {
+            mProgressBar.setVisibility(View.INVISIBLE);
+            mRefreshImageView.setVisibility(View.VISIBLE);
+        }
     }
 
     private void getLocation() {
@@ -123,7 +146,7 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-    private void okConnect(String url) {
+    private void getForecast(String url) {
         // OkHttp stuff
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
@@ -133,11 +156,24 @@ public class MainActivity extends ActionBarActivity {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        refresh();
+                    }
+                });
 
+                alertUserAboutError();
             }
 
             @Override
             public void onResponse(Response response) throws IOException {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        refresh();
+                    }
+                });
                 try {
                     String jsonData = response.body().string();
                     Log.v(TAG, jsonData);
@@ -165,6 +201,9 @@ public class MainActivity extends ActionBarActivity {
         mHumidityValue.setText(mCurrentWeather.getHumidity() + "");
         mPrecipValue.setText(mCurrentWeather.getPrecipChance() + "%");
         mSummaryLabel.setText(mCurrentWeather.getSummary());
+
+        Drawable drawable = getResources().getDrawable(mCurrentWeather.getIconId());
+        mIconImageView.setImageDrawable(drawable);
     }
 
     private CurrentWeather getCurrentDetails(String jsonData) throws JSONException {
