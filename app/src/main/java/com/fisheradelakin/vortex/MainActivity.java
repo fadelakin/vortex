@@ -11,6 +11,7 @@ import android.net.NetworkInfo;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.okhttp.Call;
@@ -100,7 +101,10 @@ public class MainActivity extends ActionBarActivity {
         try {
             List<Address> addresses = gcd.getFromLocation(mLatitude, mLongitude, 1);
             if(addresses.size() > 0) {
-                System.out.println(addresses.get(0).getLocality()); // change this to update location text view
+                // change textview to user's current location
+                TextView locality = (TextView) findViewById(R.id.locationLabel);
+                String getLocality = addresses.get(0).getLocality();
+                locality.setText(getLocality);
             }
         } catch (IOException e) {
             Log.e(TAG, "Exception caught: ", e);
