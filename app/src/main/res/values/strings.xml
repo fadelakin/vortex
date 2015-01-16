@@ -9,5 +9,12 @@
     <string name="error_ok_button_text">OK</string>
     <string name="degree_description">degree sign</string>
     <string name="weather_icon_description">weather icon</string>
+    <string name="city_name">Mountain View, CA</string>
+    <string name="time">At 5:00 PM it will be</string>
+    <string name="humidity_text">HUMIDITY</string>
+    <string name="humidity_value">0.88</string>
+    <string name="temperature_value">100</string>
+    <string name="precip_text">RAIN/SNOW?</string>
+    <string name="precip_value">100%</string>
 
 </resources>
