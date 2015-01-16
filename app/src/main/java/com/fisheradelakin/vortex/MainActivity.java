@@ -32,7 +32,6 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 // TODO: Add case for when GPS is not available
-// TODO: Add case for when Network is not available (to get results not coordinates)
 // TODO: Add getBestProvider()
 // TODO: Add last known location for cache
 // TODO: Add dialog for when GPS AND Network are not available (if we use getBestProvider, we shouldn't really run into this problem)
@@ -50,7 +49,8 @@ public class MainActivity extends ActionBarActivity {
     // Butter Knife view injections
     @InjectView(R.id.timeLabel) TextView mTimeLabel;
     @InjectView(R.id.temperatureLabel) TextView mTemperatureLabel;
-    @InjectView(R.id.humidityLabel) TextView mHumidityLabel;
+    @InjectView(R.id.humidityValue) TextView mHumidityValue;
+    @InjectView(R.id.precipValue) TextView mPrecipValue;
     @InjectView(R.id.summaryLabel) TextView mSummaryLabel;
     @InjectView(R.id.iconImageView) ImageView mIconImageView;
     @InjectView(R.id.locationLabel) TextView locality;
@@ -143,6 +143,12 @@ public class MainActivity extends ActionBarActivity {
                     Log.v(TAG, jsonData);
                     if (response.isSuccessful()) {
                         mCurrentWeather = getCurrentDetails(jsonData);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                updateDisplay();
+                            }
+                        });
                     } else {
                         alertUserAboutError();
                     }
@@ -151,6 +157,14 @@ public class MainActivity extends ActionBarActivity {
                 }
             }
         });
+    }
+
+    private void updateDisplay() {
+        mTemperatureLabel.setText(mCurrentWeather.getTemperature() + "");
+        mTimeLabel.setText(mCurrentWeather.getFormattedTime());
+        mHumidityValue.setText(mCurrentWeather.getHumidity() + "");
+        mPrecipValue.setText(mCurrentWeather.getPrecipChance() + "%");
+        mSummaryLabel.setText(mCurrentWeather.getSummary());
     }
 
     private CurrentWeather getCurrentDetails(String jsonData) throws JSONException {
