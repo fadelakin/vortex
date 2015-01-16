@@ -39,6 +39,7 @@ import butterknife.InjectView;
 // TODO: Add last known location for cache
 // TODO: Add dialog for when GPS AND Network are not available (if we use getBestProvider, we shouldn't really run into this problem)
 //          Say something like "both network and gps are not available. reverting to last known location"
+// TODO: Change icon
 
 public class MainActivity extends ActionBarActivity {
 
@@ -57,16 +58,14 @@ public class MainActivity extends ActionBarActivity {
     @InjectView(R.id.summaryLabel) TextView mSummaryLabel;
     @InjectView(R.id.iconImageView) ImageView mIconImageView;
     @InjectView(R.id.locationLabel) TextView locality;
-    @InjectView(R.id.refreshImageView) ImageView mRefreshImageView;
-    @InjectView(R.id.progressBar) ProgressBar mProgressBar;
+    //@InjectView(R.id.refreshImageView) ImageView mRefreshImageView;
+    //@InjectView(R.id.progressBar) ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
-
-        mProgressBar.setVisibility(View.INVISIBLE);
 
         getLocation();
 
@@ -75,21 +74,20 @@ public class MainActivity extends ActionBarActivity {
         final String forecastUrl = "https://api.forecast.io/forecast/" + apiKey + "/" + mLatitude + "," + mLongitude;
 
         if(isNetworkAvailable()) {
-            refresh();
             getForecast(forecastUrl);
         } else {
             Toast.makeText(this, "The network is unavailable", Toast.LENGTH_SHORT).show();
         }
 
-        mRefreshImageView.setOnClickListener(new View.OnClickListener() {
+        /* mRefreshImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getForecast(forecastUrl);
             }
-        });
+        }); */
     }
 
-    private void refresh() {
+    /* private void refresh() {
         if(mProgressBar.getVisibility() == View.INVISIBLE) {
             mProgressBar.setVisibility(View.VISIBLE);
             mRefreshImageView.setVisibility(View.INVISIBLE);
@@ -97,7 +95,7 @@ public class MainActivity extends ActionBarActivity {
             mProgressBar.setVisibility(View.INVISIBLE);
             mRefreshImageView.setVisibility(View.VISIBLE);
         }
-    }
+    } */
 
     private void getLocation() {
         // Get Location
@@ -156,24 +154,24 @@ public class MainActivity extends ActionBarActivity {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
-                runOnUiThread(new Runnable() {
+                /* runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         refresh();
                     }
-                });
+                }); */
 
                 alertUserAboutError();
             }
 
             @Override
             public void onResponse(Response response) throws IOException {
-                runOnUiThread(new Runnable() {
+                /* runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         refresh();
                     }
-                });
+                }); */
                 try {
                     String jsonData = response.body().string();
                     Log.v(TAG, jsonData);
@@ -209,7 +207,6 @@ public class MainActivity extends ActionBarActivity {
     private CurrentWeather getCurrentDetails(String jsonData) throws JSONException {
         JSONObject forecast = new JSONObject(jsonData);
         String timezone = forecast.getString("timezone");
-        Log.i(TAG, "From JSON: " + timezone);
 
         JSONObject currently = forecast.getJSONObject("currently");
 
@@ -221,8 +218,6 @@ public class MainActivity extends ActionBarActivity {
         currentWeather.setSummary(currently.getString("summary"));
         currentWeather.setTemperature(currently.getDouble("temperature"));
         currentWeather.setTimeZone(timezone);
-
-        Log.d(TAG, currentWeather.getFormattedTime());
 
         return currentWeather;
     }
