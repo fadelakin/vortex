@@ -10,12 +10,13 @@
     <string name="degree_description">degree sign</string>
     <string name="weather_icon_description">weather icon</string>
     <string name="city_name">Mountain View, CA</string>
-    <string name="time">At 5:00 PM it will be</string>
+    <string name="time">...</string>
     <string name="humidity_text">HUMIDITY</string>
-    <string name="humidity_value">0.88</string>
-    <string name="temperature_value">100</string>
+    <string name="humidity_value">--</string>
+    <string name="temperature_value">--</string>
     <string name="precip_text">RAIN/SNOW?</string>
-    <string name="precip_value">100%</string>
-    <string name="summary_default_text">Stormy with a chance of meatballs</string>
+    <string name="precip_value">--</string>
+    <string name="summary_default_text">Getting current weather...</string>
+    <string name="refresh_description">refresh button</string>
 
 </resources>
