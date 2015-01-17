@@ -41,8 +41,8 @@ import butterknife.InjectView;
 
 public class MainActivity extends ActionBarActivity {
 
-    double mLatitude;
-    double mLongitude;
+    Double mLatitude;
+    Double mLongitude;
 
     public static final String TAG = MainActivity.class.getSimpleName();
 
@@ -97,10 +97,9 @@ public class MainActivity extends ActionBarActivity {
     } */
 
     private void getLocation() {
-        // Get Location through GPS
+        // Get Location through the network
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        //lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        Location location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         mLatitude = location.getLatitude();
         mLongitude = location.getLongitude();
 
@@ -128,12 +127,13 @@ public class MainActivity extends ActionBarActivity {
             }
         };
 
-        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, locationListenerGPS);
+        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2000, 10, locationListenerGPS);
 
         // Get current city that user is in.
         Geocoder gcd = new Geocoder(this, Locale.getDefault());
         try {
             List<Address> addresses = gcd.getFromLocation(mLatitude, mLongitude, 1);
+
             if(addresses.size() > 0) {
                 // change location label to user's current location
                 String getLocality = addresses.get(0).getLocality();
