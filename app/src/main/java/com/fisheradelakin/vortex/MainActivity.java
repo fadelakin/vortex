@@ -59,11 +59,6 @@ public class MainActivity extends ActionBarActivity {
     //@InjectView(R.id.refreshImageView) ImageView mRefreshImageView;
     //@InjectView(R.id.progressBar) ProgressBar mProgressBar;
 
-    //Location location;
-    //LocationListener locationListenerGPS;
-    //LocationListener locationListenerNetwork;
-    //LocationManager lm;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,39 +99,10 @@ public class MainActivity extends ActionBarActivity {
     private void getLocation() {
         // Get Location through GPS
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        Location location;
+        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         //lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        //mLatitude = location.getLatitude();
-        //mLongitude = location.getLongitude();
-
-        // Get location through network and GPS
-        final boolean gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        final boolean network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-
-
-
-        if(!network_enabled && !gps_enabled) {
-            Location locNetwork = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-            Location locGPS = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            if(locNetwork != null) {
-                location = locNetwork;
-                mLatitude = location.getLatitude();
-                mLongitude = location.getLongitude();
-            } else if(locGPS != null) {
-                location = locGPS;
-                mLatitude = location.getLatitude();
-                mLongitude = location.getLongitude();
-            }
-            //location = getMyLastKnownLocation();
-            //mLatitude = location.getLatitude();
-            //mLongitude = location.getLongitude();
-
-            Log.i("@@@@@@@@ Both location provider disabled",
-                    "getMylastKnownLocation = "+String.valueOf(mLatitude)
-                            + " : " + String.valueOf(mLongitude));
-            Toast.makeText(this,"LastKnownLocation\n"+String.valueOf(mLongitude) + "\n"
-                    + String.valueOf(mLongitude), Toast.LENGTH_SHORT).show();
-        }
+        mLatitude = location.getLatitude();
+        mLongitude = location.getLongitude();
 
         // Async updates of location through GPS
         LocationListener locationListenerGPS = new LocationListener() {
@@ -162,42 +128,7 @@ public class MainActivity extends ActionBarActivity {
             }
         };
 
-        // check if gps is enabled
-        if(gps_enabled) {
-            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, locationListenerGPS);
-            Log.i("@@@@@@@@@@ GPS provider is enabled", "GPS Provider");
-        }
-
-        LocationListener locationListenerNetwork = new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
-                mLatitude = location.getLatitude();
-                mLongitude = location.getLongitude();
-            }
-
-            @Override
-            public void onStatusChanged(String provider, int status, Bundle extras) {
-
-            }
-
-            @Override
-            public void onProviderEnabled(String provider) {
-
-            }
-
-            @Override
-            public void onProviderDisabled(String provider) {
-
-            }
-        };
-
-        // check if network is enabled
-        if(network_enabled) {
-            lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2000, 10, locationListenerNetwork);
-            Log.i("@@@@@@@@@@ Network provider is enabled", "Network Provider");
-        } else {
-            Toast.makeText(this, "Network is not available", Toast.LENGTH_LONG).show();
-        }
+        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, locationListenerGPS);
 
         // Get current city that user is in.
         Geocoder gcd = new Geocoder(this, Locale.getDefault());
@@ -212,17 +143,6 @@ public class MainActivity extends ActionBarActivity {
             Log.e(TAG, "Exception caught: ", e);
         }
     }
-
-    /* public Location getMyLastKnownLocation () {
-        Location locNetwork = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        Location locGPS = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        if(locNetwork != null)
-            return locNetwork;
-        else if(locGPS != null)
-            return locGPS;
-
-        return null;
-    } */
 
     private void getForecast(String url) {
         // OkHttp stuff
