@@ -9,12 +9,12 @@ import android.os.Bundle;
 /**
  * Created by Fisher on 1/17/15.
  */
-public class GPSDialogFragment extends DialogFragment {
+public class LocationDialogFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(R.string.enable_GPS)
+        builder.setMessage(R.string.enable_Location)
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

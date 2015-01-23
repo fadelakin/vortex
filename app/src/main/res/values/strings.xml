@@ -16,9 +16,13 @@
     <string name="temperature_value">--</string>
     <string name="precip_text">RAIN/SNOW?</string>
     <string name="precip_value">--</string>
-    <string name="summary_default_text">Getting current weather...</string>
+    <string name="summary_default_text">Getting current weather…</string>
     <string name="refresh_description">refresh button</string>
-    <string name="enable_GPS">Please turn on your GPS</string>
-    <string name="ok">ok</string>
+    <string name="enable_Location">Please turn on your Location</string>
+    <string name="ok">OK</string>
+    <string name="refresh_button">Refresh</string>
+    <string name="no_network_text">No Network</string>
+    <string name="no_network_message">Please enable your network or check again when there is network available</string>
+    <string name="no_network_confirm">OK</string>
 
 </resources>

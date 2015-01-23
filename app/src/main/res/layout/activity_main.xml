@@ -48,7 +48,7 @@
         android:id="@+id/locationLabel"
         android:layout_above="@+id/timeLabel"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="50dp"
         android:textColor="@android:color/white"
         android:textSize="24sp"/>
 
@@ -131,25 +131,18 @@
         android:id="@+id/summaryLabel"
         android:layout_below="@+id/linearLayout"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="50dp"
         android:textColor="@android:color/white"
         android:textSize="18sp"
         android:gravity="center_horizontal"/>
 
-    <!--<ImageView
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/refreshImageView"
+        android:id="@+id/refreshButton"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/refresh"
-        android:contentDescription="@string/refresh_description"/>
-
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/progressBar"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_alignBottom="@+id/refreshImageView"/> -->
+        android:background="#ff3ba4dc"
+        android:textColor="@android:color/white"
+        android:text="@string/refresh_button"/>
 </RelativeLayout>
