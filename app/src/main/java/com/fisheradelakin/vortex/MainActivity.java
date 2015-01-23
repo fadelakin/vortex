@@ -72,6 +72,14 @@ public class MainActivity extends ActionBarActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // this should fix all problems
+        start();
+    }
+
     private void start() {
         getLocation();
 
