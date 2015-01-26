@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +45,7 @@ public class MainActivity extends ActionBarActivity {
     public static final String TAG = MainActivity.class.getSimpleName();
 
     private CurrentWeather mCurrentWeather;
+    private Colors mColors = new Colors();
 
     // Butter Knife view injections
     @InjectView(R.id.timeLabel) TextView mTimeLabel;
@@ -53,8 +55,9 @@ public class MainActivity extends ActionBarActivity {
     @InjectView(R.id.summaryLabel) TextView mSummaryLabel;
     @InjectView(R.id.iconImageView) ImageView mIconImageView;
     @InjectView(R.id.locationLabel) TextView locality;
-    @InjectView(R.id.refreshButton) Button mRefreshButton;
-
+    //@InjectView(R.id.refreshButton) Button mRefreshButton;
+    @InjectView(R.id.parentLayout) RelativeLayout mRelativeLayout;
+    @InjectView(R.id.refreshImageView) ImageView mRefreshImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +67,14 @@ public class MainActivity extends ActionBarActivity {
 
         start();
 
-        mRefreshButton.setOnClickListener(new View.OnClickListener() {
+       /* mRefreshButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                start();
+            }
+        });*/
+
+        mRefreshImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 start();
@@ -92,6 +102,9 @@ public class MainActivity extends ActionBarActivity {
         } else {
             alertUserAboutNetwork();
         }
+
+        int color = mColors.getColor();
+        mRelativeLayout.setBackgroundColor(color);
     }
 
     private void getLocation() {
