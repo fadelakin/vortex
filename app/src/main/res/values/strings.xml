@@ -24,5 +24,8 @@
     <string name="no_network_text">No Network</string>
     <string name="no_network_message">Please enable your network or check again when there is network available</string>
     <string name="no_network_confirm">OK</string>
+    <string name="farenheit_string">F</string>
+    <string name="celsius">C</string>
+    <string name="change_unit_string">Change Temperature Units</string>
 
 </resources>
