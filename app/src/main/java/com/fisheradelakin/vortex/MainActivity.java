@@ -36,7 +36,7 @@ import java.util.Locale;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-// TODO: Change icon
+// TODO: Add SharedPreferences to save the user's choice of unit
 
 public class MainActivity extends ActionBarActivity {
 
