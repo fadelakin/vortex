@@ -1,6 +1,8 @@
 package com.fisheradelakin.vortex;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
@@ -17,7 +19,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
@@ -55,9 +56,10 @@ public class MainActivity extends ActionBarActivity {
     @InjectView(R.id.summaryLabel) TextView mSummaryLabel;
     @InjectView(R.id.iconImageView) ImageView mIconImageView;
     @InjectView(R.id.locationLabel) TextView locality;
-    //@InjectView(R.id.refreshButton) Button mRefreshButton;
     @InjectView(R.id.parentLayout) RelativeLayout mRelativeLayout;
     @InjectView(R.id.refreshImageView) ImageView mRefreshImageView;
+    @InjectView(R.id.tempVariation) TextView mTempVariation;
+    @InjectView(R.id.changeTempButton) Button changeTemp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,12 +69,12 @@ public class MainActivity extends ActionBarActivity {
 
         start();
 
-       /* mRefreshButton.setOnClickListener(new View.OnClickListener() {
+        changeTemp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                start();
+                changeUnits();
             }
-        });*/
+        });
 
         mRefreshImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,6 +107,7 @@ public class MainActivity extends ActionBarActivity {
 
         int color = mColors.getColor();
         mRelativeLayout.setBackgroundColor(color);
+        mTempVariation.setText(getString(R.string.farenheit_string));
     }
 
     private void getLocation() {
@@ -251,5 +254,40 @@ public class MainActivity extends ActionBarActivity {
     private void alertUserAboutNetwork() {
         NetworkDialogFragment networkDialogFragment = new NetworkDialogFragment();
         networkDialogFragment.show(getFragmentManager(), "network_dialog");
+    }
+
+    // look into moving this to the CurrentWeather class
+    private void changeToCelsius() {
+        mTempVariation.setText(getString(R.string.celsius));
+
+        double f = mCurrentWeather.getTemperature();
+        int c = (int) Math.round(((f - 32) * 5) / 9);
+
+        mTemperatureLabel.setText(c + "");
+    }
+
+    private int changeToFahrenheit() {
+        mTempVariation.setText(getString(R.string.farenheit_string));
+        mTemperatureLabel.setText(mCurrentWeather.getTemperature() + "");
+        return mCurrentWeather.getTemperature();
+    }
+
+    private void changeUnits() {
+        final CharSequence units[] = new CharSequence[] {"fahrenheit", "celsius"};
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Pick a temperature unit");
+        builder.setItems(units, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // the user clicked on colors[units]
+                if(units[which].toString() == units[1]) {
+                    changeToCelsius();
+                } else if (units[which].toString() == units[0]) {
+                    changeToFahrenheit();
+                }
+            }
+        });
+        builder.show();
     }
 }
