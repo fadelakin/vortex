@@ -178,7 +178,6 @@ public class MainActivity extends ActionBarActivity {
 
         // make call to server
         // get your own API KEY from developer.forecast.io and fill it in.
-        //String apiKey = "ba71a57df25168e291029d6b1547c643";
         final String forecastUrl = "https://api.forecast.io/forecast/" + apiKey + "/" + mLatitude + "," + mLongitude;
 
         if(isNetworkAvailable()) {
