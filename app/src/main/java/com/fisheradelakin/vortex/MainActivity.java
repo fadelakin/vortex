@@ -1,5 +1,6 @@
 package com.fisheradelakin.vortex;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,11 +14,14 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -39,6 +43,8 @@ import java.util.Locale;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+
+import static android.view.WindowManager.LayoutParams;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -172,6 +178,7 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void start() throws IOException, JSONException {
         getAPIKey();
         getLocation();
@@ -189,6 +196,14 @@ public class MainActivity extends ActionBarActivity {
         int color = mColors.getColor();
         mRelativeLayout.setBackgroundColor(color);
         mTempVariation.setText(getString(R.string.farenheit_string));
+
+        // set status bar to color of background
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window w = getWindow();
+            w.addFlags(LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            w.clearFlags(LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            w.setStatusBarColor(color);
+        }
     }
 
     private void getLocation() {
