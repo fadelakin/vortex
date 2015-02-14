@@ -46,11 +46,6 @@ public class Colors {
     // Randomly select a color
     static Random rand = new Random();
 
-    public int darkColor() {
-        Color.alpha(mColors.length);
-        return Color.parseColor(mColors[rand.nextInt(mColors.length)]);
-    }
-
     public int getColor() {
         return Color.parseColor(mColors[rand.nextInt(mColors.length)]);
     }

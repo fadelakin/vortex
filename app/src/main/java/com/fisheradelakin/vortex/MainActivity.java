@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
@@ -21,7 +22,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -197,12 +197,19 @@ public class MainActivity extends ActionBarActivity {
         mRelativeLayout.setBackgroundColor(color);
         mTempVariation.setText(getString(R.string.farenheit_string));
 
-        // set status bar to color of background
+        // generate a new color based on the background color for the status bar
+        // using hsv because it makes it super easy bruh.
+        float[] hsv = new float[3];
+        Color.colorToHSV(color, hsv);
+        hsv[2] *= 0.75f; // value component
+        int statusBarColor = Color.HSVToColor(hsv);
+
+        // set status bar to a darker color of the background
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window w = getWindow();
             w.addFlags(LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             w.clearFlags(LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            w.setStatusBarColor(color);
+            w.setStatusBarColor(statusBarColor);
         }
     }
 
