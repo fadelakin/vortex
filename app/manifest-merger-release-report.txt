@@ -42,7 +42,7 @@ MERGED from com.android.support:support-v4:21.0.3:16:5
 		ADDED from AndroidManifest.xml:12:9
 	android:theme
 		ADDED from AndroidManifest.xml:14:9
-activity#com.fisheradelakin.vortex.MainActivity
+activity#com.fisheradelakin.vortex.ui.MainActivity
 ADDED from AndroidManifest.xml:15:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:18:13

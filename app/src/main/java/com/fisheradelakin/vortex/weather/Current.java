@@ -1,4 +1,6 @@
-package com.fisheradelakin.vortex;
+package com.fisheradelakin.vortex.weather;
+
+import com.fisheradelakin.vortex.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -7,7 +9,7 @@ import java.util.TimeZone;
 /**
  * Created by Fisher on 1/15/15.
  */
-public class CurrentWeather {
+public class Current {
     private String mIcon;
     private long mTime;
     private double mTemperature;

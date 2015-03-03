@@ -1,10 +1,12 @@
-package com.fisheradelakin.vortex;
+package com.fisheradelakin.vortex.ui;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.os.Bundle;
+
+import com.fisheradelakin.vortex.R;
 
 /**
  * Created by Fisher on 1/22/15.

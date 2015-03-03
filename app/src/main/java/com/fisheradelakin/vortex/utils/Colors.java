@@ -1,4 +1,4 @@
-package com.fisheradelakin.vortex;
+package com.fisheradelakin.vortex.utils;
 
 import android.graphics.Color;
 
