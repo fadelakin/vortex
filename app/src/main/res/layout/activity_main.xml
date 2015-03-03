@@ -166,18 +166,19 @@
                 android:src="@drawable/refresh"
                 android:contentDescription="@string/refresh_description"/>
 
-        <Button
+        <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/changeTempButton"
-            android:layout_alignParentBottom="true"
-            android:text="@string/change_unit_string"
-            android:layout_alignRight="@+id/linearLayout"
-            android:layout_alignEnd="@+id/linearLayout"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:textColor="@android:color/white"
-            android:background="@android:color/transparent"/>
+            android:id="@+id/changeUnits"
+            android:layout_alignTop="@+id/refreshImageView"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_action_settings"
+            android:background="@null"
+            android:contentDescription="@string/desc_settings_icon"
+            android:layout_toEndOf="@+id/locationLabel"
+            android:layout_alignBottom="@+id/refreshImageView"
+            />
     </RelativeLayout>
 
 </android.support.v4.widget.SwipeRefreshLayout>

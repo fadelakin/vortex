@@ -23,6 +23,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -69,8 +70,8 @@ public class MainActivity extends ActionBarActivity {
     @InjectView(R.id.parentLayout) RelativeLayout mRelativeLayout;
     @InjectView(R.id.refreshImageView) ImageView mRefreshImageView;
     @InjectView(R.id.tempVariation) TextView mTempVariation;
-    @InjectView(R.id.changeTempButton) Button changeTemp;
     @InjectView(R.id.activity_main_swipe_refresh_layout) SwipeRefreshLayout mSwipeRefreshLayout;
+    @InjectView(R.id.changeUnits) ImageButton mChangeUnits;
 
     public static final String MyPREFERENCES = "MyPrefs";
     public static final String fKey = "F";
@@ -90,7 +91,7 @@ public class MainActivity extends ActionBarActivity {
             e.printStackTrace();
         }
 
-        changeTemp.setOnClickListener(new View.OnClickListener() {
+        mChangeUnits.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 changeUnits();

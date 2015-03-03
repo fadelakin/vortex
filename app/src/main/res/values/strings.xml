@@ -27,5 +27,6 @@
     <string name="farenheit_string">F</string>
     <string name="celsius">C</string>
     <string name="change_unit_string">Change Temperature Units</string>
+    <string name="desc_settings_icon">settings icon</string>
 
 </resources>
