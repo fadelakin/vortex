@@ -28,5 +28,7 @@
     <string name="celsius">C</string>
     <string name="change_unit_string">Change Temperature Units</string>
     <string name="desc_settings_icon">settings icon</string>
+    <string name="title_activity_daily_forecast">DailyForecastActivity</string>
+    <string name="no_daily_forecast_data">There is no data to display</string>
 
 </resources>

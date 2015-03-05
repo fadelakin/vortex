@@ -4,9 +4,11 @@ import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
@@ -50,6 +52,7 @@ import java.util.Locale;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 import static android.view.WindowManager.LayoutParams;
 
@@ -84,6 +87,8 @@ public class MainActivity extends ActionBarActivity {
     public static final String cKey = "C";
 
     SharedPreferences mSharedPreferences;
+
+    int color;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -200,7 +205,7 @@ public class MainActivity extends ActionBarActivity {
             alertUserAboutNetwork();
         }
 
-        int color = mColors.getColor();
+        color = mColors.getColor();
         mRelativeLayout.setBackgroundColor(color);
         mTempVariation.setText(getString(R.string.farenheit_string));
 
@@ -468,5 +473,12 @@ public class MainActivity extends ActionBarActivity {
             }
         });
         builder.show();
+    }
+
+    @OnClick (R.id.dailyButton)
+    public void startDailyActivity(View view) {
+        Intent intent = new Intent(this, DailyForecastActivity.class);
+        intent.putExtra("background", color);
+        startActivity(intent);
     }
 }
