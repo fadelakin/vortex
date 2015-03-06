@@ -16,6 +16,8 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.fisheradelakin.vortex.R;
+import com.fisheradelakin.vortex.adapters.DayAdapter;
+import com.fisheradelakin.vortex.weather.Day;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -26,7 +28,7 @@ public class DailyForecastActivity extends ListActivity {
 
     int color;
 
-    private String[] daysOfTheWeek = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
+    private Day[] mDays;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +51,7 @@ public class DailyForecastActivity extends ListActivity {
         changeStatusBarColor();
         /* END BACKGROUND COLOR STUFF */
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, daysOfTheWeek);
-        setListAdapter(adapter);
+        DayAdapter adapter = new DayAdapter(this, mDays);
 
     }
 
