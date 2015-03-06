@@ -17,7 +17,6 @@ import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
-import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -147,7 +146,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void getPreferences() {
-        mSharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        mSharedPreferences = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
 
         if (mSharedPreferences.contains(fKey))
         {
@@ -450,6 +449,8 @@ public class MainActivity extends ActionBarActivity {
         return current.getTemperature();
     }
 
+    // TODO: shared preferences into daily and hourly views
+
     private void changeUnits() {
         final CharSequence units[] = new CharSequence[] {"fahrenheit", "celsius"};
 
@@ -474,18 +475,16 @@ public class MainActivity extends ActionBarActivity {
                 }
             }
         });
+        editor.apply();
         builder.show();
     }
 
     @OnClick (R.id.dailyButton)
     public void startDailyActivity(View view) {
-
-        //SharedPreferences temps = PreferenceManager.getDefaultSharedPreferences(this);
-
         Intent intent = new Intent(this, DailyForecastActivity.class);
         intent.putExtra(DAILY_FORECAST, mForecast.getDailyForecast());
         intent.putExtra("background", color);
-        //intent.putExtra("selected_temps", temps.getString());
+        intent.putExtra("locality", mLocality.getText().toString());
         startActivity(intent);
     }
 }

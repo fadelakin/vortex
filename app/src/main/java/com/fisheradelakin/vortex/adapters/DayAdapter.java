@@ -1,6 +1,7 @@
 package com.fisheradelakin.vortex.adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,12 @@ public class DayAdapter extends BaseAdapter {
 
     private Context mContext;
     private Day[] mDays;
+
+    public static final String MyPREFERENCES = "MyPrefs";
+    public static final String fKey = "F";
+    public static final String cKey = "C";
+
+    Day day;
 
     public DayAdapter(Context context, Day[] days) {
         mContext = context;
@@ -56,7 +63,7 @@ public class DayAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Day day = mDays[position];
+        day = mDays[position];
 
         holder.iconImageView.setImageResource(day.getIconId());
         holder.temperatureLabel.setText(day.getTemperatureMax() + "");
@@ -67,6 +74,13 @@ public class DayAdapter extends BaseAdapter {
             holder.dayLabel.setText(day.getDayOfTheWeek());
         }
 
+        SharedPreferences temps = mContext.getSharedPreferences(MyPREFERENCES, 0);
+        if(temps.contains(cKey)) {
+            holder.temperatureLabel.setText(changeToCelsius() + "");
+        } else if(temps.contains(fKey)) {
+            holder.temperatureLabel.setText(changeToFahrenheit() + "");
+        }
+
         return convertView;
     }
 
@@ -74,5 +88,13 @@ public class DayAdapter extends BaseAdapter {
         ImageView iconImageView;
         TextView temperatureLabel;
         TextView dayLabel;
+    }
+
+    private int changeToCelsius() {
+        return ((((day.getTemperatureMax() - 32) * 5) / 9));
+    }
+
+    private int changeToFahrenheit() {
+        return day.getTemperatureMax();
     }
 }
