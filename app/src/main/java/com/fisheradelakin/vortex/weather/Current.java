@@ -1,7 +1,5 @@
 package com.fisheradelakin.vortex.weather;
 
-import com.fisheradelakin.vortex.R;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
@@ -16,6 +14,8 @@ public class Current {
     private double mHumidity;
     private double mPrecipChance;
     private String mSummary;
+
+    private double mCelsius;
 
     public String getTimeZone() {
         return mTimeZone;
@@ -86,5 +86,13 @@ public class Current {
 
     public void setSummary(String summary) {
         mSummary = summary;
+    }
+
+    public double getCelsius() {
+        return mCelsius;
+    }
+
+    public void setCelsius(double celsius) {
+        mCelsius = (((celsius - 32) * 5) / 9);
     }
 }

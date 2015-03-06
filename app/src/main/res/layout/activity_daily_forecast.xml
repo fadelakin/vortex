@@ -13,9 +13,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@android:id/list"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentTop="false"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"/>
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/thisWeekLabel"
+        android:layout_above="@+id/locationLabel"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:divider="@null"
+        android:dividerHeight="0dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -25,5 +31,26 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:textColor="#ffffffff"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="This Week&apos;s Weather"
+        android:id="@+id/thisWeekLabel"
+        android:textColor="#ffffffff"
+        android:textSize="30sp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mountain View, CA"
+        android:id="@+id/locationLabel"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:textColor="#ffffffff"
+        android:textSize="18sp"
+        android:layout_marginBottom="10dp"/>
 
 </RelativeLayout>

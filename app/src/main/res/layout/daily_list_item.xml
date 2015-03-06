@@ -49,6 +49,6 @@
         android:layout_alignLeft="@+id/circleImageView"
         android:layout_alignRight="@+id/circleImageView"
         android:gravity="center"
-        android:textColor="#ecf0f1"
+        android:textColor="#ff3ba4dc"
         tools:text="100"/>
 </RelativeLayout>

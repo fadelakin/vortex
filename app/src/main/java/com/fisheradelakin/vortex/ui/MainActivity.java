@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
@@ -18,6 +17,7 @@ import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -64,6 +64,7 @@ public class MainActivity extends ActionBarActivity {
     double mLongitude;
 
     public static final String TAG = MainActivity.class.getSimpleName();
+    public static final String DAILY_FORECAST = "DAILY_FORECAST";
 
     private Forecast mForecast;
     private Colors mColors = new Colors();
@@ -75,7 +76,7 @@ public class MainActivity extends ActionBarActivity {
     @InjectView(R.id.precipValue) TextView mPrecipValue;
     @InjectView(R.id.summaryLabel) TextView mSummaryLabel;
     @InjectView(R.id.iconImageView) ImageView mIconImageView;
-    @InjectView(R.id.locationLabel) TextView locality;
+    @InjectView(R.id.locationLabel) TextView mLocality;
     @InjectView(R.id.parentLayout) RelativeLayout mRelativeLayout;
     @InjectView(R.id.refreshImageView) ImageView mRefreshImageView;
     @InjectView(R.id.tempVariation) TextView mTempVariation;
@@ -268,7 +269,7 @@ public class MainActivity extends ActionBarActivity {
                 if (addresses.size() > 0) {
                     // change location label to user's current location
                     String getLocality = addresses.get(0).getLocality();
-                    locality.setText(getLocality);
+                    mLocality.setText(getLocality);
                 }
             } catch (IOException e) {
                 Log.e(TAG, "Exception caught: ", e);
@@ -433,7 +434,8 @@ public class MainActivity extends ActionBarActivity {
         networkDialogFragment.show(getFragmentManager(), "network_dialog");
     }
 
-    // look into moving this to the Current class
+    // TODO: look into moving this to the Current class
+    // TODO: pass celsius values to daily and hourly screens
     private void changeToCelsius() {
         Current current = mForecast.getCurrent();
         mTempVariation.setText(getString(R.string.celsius));
@@ -477,8 +479,13 @@ public class MainActivity extends ActionBarActivity {
 
     @OnClick (R.id.dailyButton)
     public void startDailyActivity(View view) {
+
+        //SharedPreferences temps = PreferenceManager.getDefaultSharedPreferences(this);
+
         Intent intent = new Intent(this, DailyForecastActivity.class);
+        intent.putExtra(DAILY_FORECAST, mForecast.getDailyForecast());
         intent.putExtra("background", color);
+        //intent.putExtra("selected_temps", temps.getString());
         startActivity(intent);
     }
 }
