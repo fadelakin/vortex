@@ -169,15 +169,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/changeUnits"
-            android:layout_alignTop="@+id/refreshImageView"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
             android:src="@drawable/ic_action_settings"
             android:background="@null"
             android:contentDescription="@string/desc_settings_icon"
-            android:layout_toEndOf="@+id/locationLabel"
-            android:layout_alignBottom="@+id/refreshImageView"
-            />
+            android:layout_alignTop="@+id/refreshImageView"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"/>
 
         <LinearLayout
             android:orientation="horizontal"

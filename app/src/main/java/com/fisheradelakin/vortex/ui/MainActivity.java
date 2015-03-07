@@ -64,6 +64,7 @@ public class MainActivity extends ActionBarActivity {
 
     public static final String TAG = MainActivity.class.getSimpleName();
     public static final String DAILY_FORECAST = "DAILY_FORECAST";
+    public static final String HOURLY_FORECAST = "HOURLY_FORECAST";
 
     private Forecast mForecast;
     private Colors mColors = new Colors();
@@ -438,7 +439,6 @@ public class MainActivity extends ActionBarActivity {
     private void changeToCelsius() {
         Current current = mForecast.getCurrent();
         mTempVariation.setText(getString(R.string.celsius));
-
         mTemperatureLabel.setText((((current.getTemperature() - 32) * 5) / 9) + "");
     }
 
@@ -485,6 +485,14 @@ public class MainActivity extends ActionBarActivity {
         intent.putExtra(DAILY_FORECAST, mForecast.getDailyForecast());
         intent.putExtra("background", color);
         intent.putExtra("locality", mLocality.getText().toString());
+        startActivity(intent);
+    }
+
+    @OnClick (R.id.hourlyButton)
+    public void startHourlyActivity(View view) {
+        Intent intent = new Intent(this, HourlyForecastActivity.class);
+        intent.putExtra(HOURLY_FORECAST, mForecast.getHourlyForecast());
+        intent.putExtra("background", color);
         startActivity(intent);
     }
 }
