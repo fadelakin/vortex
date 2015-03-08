@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fisheradelakin.vortex.R;
 import com.fisheradelakin.vortex.weather.Hour;
@@ -23,7 +24,7 @@ public class HourAdapter extends RecyclerView.Adapter<HourAdapter.HourViewHolder
     public static final String fKey = "F";
     public static final String cKey = "C";
 
-    Context mContext;
+    private Context mContext;
 
     public HourAdapter(Context context, Hour[] hours) {
         mContext = context;
@@ -33,8 +34,7 @@ public class HourAdapter extends RecyclerView.Adapter<HourAdapter.HourViewHolder
     @Override
     public HourViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.hourly_list_item, viewGroup, false);
-        HourViewHolder viewHolder = new HourViewHolder(view);
-        return viewHolder;
+        return new HourViewHolder(view);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class HourAdapter extends RecyclerView.Adapter<HourAdapter.HourViewHolder
         return mHours.length;
     }
 
-    public class HourViewHolder extends RecyclerView.ViewHolder {
+    public class HourViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public TextView mTimeLabel;
         public TextView mSummaryLabel;
@@ -61,6 +61,8 @@ public class HourAdapter extends RecyclerView.Adapter<HourAdapter.HourViewHolder
             mSummaryLabel = (TextView) itemView.findViewById(R.id.summaryLabel);
             mTemperatureLabel = (TextView) itemView.findViewById(R.id.temperatureLabel);
             mIconImageView = (ImageView) itemView.findViewById(R.id.iconImageView);
+
+            itemView.setOnClickListener(this);
         }
 
         SharedPreferences temps = itemView.getContext().getSharedPreferences(MyPREFERENCES, 0);
@@ -69,7 +71,7 @@ public class HourAdapter extends RecyclerView.Adapter<HourAdapter.HourViewHolder
             mTimeLabel.setText(hour.getHour());
             mSummaryLabel.setText(hour.getSummary());
 
-            // sharedpreferences stuff
+            // shared preferences stuff
             if(temps.contains(cKey)) {
                 mTemperatureLabel.setText((((hour.getTemperature() - 32) * 5) / 9) + "");
             } else if(temps.contains(fKey)) {
@@ -77,6 +79,15 @@ public class HourAdapter extends RecyclerView.Adapter<HourAdapter.HourViewHolder
             }
 
             mIconImageView.setImageResource(hour.getIconId());
+        }
+
+        @Override
+        public void onClick(View v) {
+            String time = mTimeLabel.getText().toString();
+            String temperature = mTemperatureLabel.getText().toString();
+            String summary = mSummaryLabel.getText().toString();
+            String message = String.format("At %s, it will be %s and %s", time, temperature, summary);
+            Toast.makeText(mContext, message, Toast.LENGTH_LONG).show();
         }
     }
 }

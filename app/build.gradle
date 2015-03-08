@@ -2,14 +2,14 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 21
-    buildToolsVersion "21.1.1"
+    buildToolsVersion "21.1.2"
 
     defaultConfig {
         applicationId "com.fisheradelakin.vortex"
         minSdkVersion 15
         targetSdkVersion 21
-        versionCode 7
-        versionName "1.07"
+        versionCode 8
+        versionName "2.0"
     }
     buildTypes {
         release {
@@ -26,4 +26,5 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:21.0.2'
     compile 'com.squareup.okhttp:okhttp:2.2.0'
     compile 'com.jakewharton:butterknife:6.0.0'
+    compile 'jp.wasabeef:recyclerview-animators:1.1.0@aar'
 }

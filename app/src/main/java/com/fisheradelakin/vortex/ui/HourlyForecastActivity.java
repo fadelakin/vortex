@@ -9,7 +9,6 @@ import android.os.Parcelable;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
@@ -23,6 +22,7 @@ import java.util.Arrays;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import jp.wasabeef.recyclerview.animators.adapters.SlideInRightAnimationAdapter;
 
 public class HourlyForecastActivity extends ActionBarActivity {
 
@@ -44,7 +44,9 @@ public class HourlyForecastActivity extends ActionBarActivity {
         mHours = Arrays.copyOf(parcelables, parcelables.length, Hour[].class);
 
         HourAdapter adapter = new HourAdapter(this, mHours);
-        mRecyclerView.setAdapter(adapter);
+        SlideInRightAnimationAdapter slideInRightAnimationAdapter = new SlideInRightAnimationAdapter(adapter);
+        slideInRightAnimationAdapter.setDuration(750);
+        mRecyclerView.setAdapter(slideInRightAnimationAdapter);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
@@ -55,10 +57,8 @@ public class HourlyForecastActivity extends ActionBarActivity {
         color = intent.getExtras().getInt("background");
         if(color != -1 && mHourlyLayout != null) {
             mHourlyLayout.setBackgroundColor(color);
-            Log.i("TAG", color + "");
         } else {
-            Toast.makeText(this, "something went wrong and is null", Toast.LENGTH_SHORT).show();
-            Log.i("TAG", color + "");
+            Toast.makeText(this, "whoops. something went wrong", Toast.LENGTH_SHORT).show();
         }
 
         changeStatusBarColor();

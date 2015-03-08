@@ -7,9 +7,10 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,8 +25,6 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class DailyForecastActivity extends ListActivity {
-
-    // TODO: refactor code for location
 
     @InjectView(R.id.dailyLayout) RelativeLayout mLayout;
     @InjectView(R.id.locationLabel) TextView mLocation;
@@ -48,10 +47,8 @@ public class DailyForecastActivity extends ListActivity {
 
         if(color != -1 && mLayout != null) {
             mLayout.setBackgroundColor(color);
-            Log.i("TAG", color + "");
         } else {
-            Toast.makeText(this, "something went wrong and is null", Toast.LENGTH_SHORT).show();
-            Log.i("TAG", color + "");
+            Toast.makeText(this, "something went wrong", Toast.LENGTH_SHORT).show();
         }
 
         changeStatusBarColor();
@@ -65,6 +62,17 @@ public class DailyForecastActivity extends ListActivity {
 
         mLocation.setText(locality);
 
+    }
+
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+
+        String dayOfTheWeek = mDays[position].getDayOfTheWeek();
+        String conditions = mDays[position].getSummary();
+        String highTemp = mDays[position].getTemperatureMax() + "";
+        String message = String.format("On %s the high will be %s and it will be %s", dayOfTheWeek, highTemp, conditions);
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
