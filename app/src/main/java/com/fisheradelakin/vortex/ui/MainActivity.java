@@ -191,7 +191,6 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void start() throws IOException, JSONException {
         getAPIKey();
         getLocation();
@@ -218,7 +217,7 @@ public class MainActivity extends ActionBarActivity {
         int statusBarColor = Color.HSVToColor(hsv);
 
         // set status bar to a darker color of the background
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window w = getWindow();
             w.addFlags(LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             w.clearFlags(LayoutParams.FLAG_TRANSLUCENT_STATUS);
