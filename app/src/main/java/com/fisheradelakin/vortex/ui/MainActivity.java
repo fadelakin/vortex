@@ -1,6 +1,5 @@
 package com.fisheradelakin.vortex.ui;
 
-import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,9 +16,9 @@ import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -28,8 +27,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.fisheradelakin.vortex.utils.Colors;
 import com.fisheradelakin.vortex.R;
+import com.fisheradelakin.vortex.utils.Colors;
 import com.fisheradelakin.vortex.weather.Current;
 import com.fisheradelakin.vortex.weather.Day;
 import com.fisheradelakin.vortex.weather.Forecast;
@@ -55,7 +54,7 @@ import butterknife.OnClick;
 
 import static android.view.WindowManager.LayoutParams;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
 
     String apiKey;
 
@@ -160,7 +159,6 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private String getAPIKey() throws IOException, JSONException {
-
         String jsonData = loadJSONFromAsset();
         JSONObject key = new JSONObject(jsonData);
         apiKey = key.getString("api_key");
@@ -451,7 +449,7 @@ public class MainActivity extends ActionBarActivity {
     // TODO: shared preferences into daily and hourly views
 
     private void changeUnits() {
-        final CharSequence units[] = new CharSequence[] {"fahrenheit", "celsius"};
+        final CharSequence units[] = new CharSequence[] {"Fahrenheit", "Celsius"};
 
         final SharedPreferences.Editor editor = mSharedPreferences.edit();
 

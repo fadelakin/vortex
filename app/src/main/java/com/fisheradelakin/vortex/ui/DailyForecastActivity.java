@@ -1,8 +1,8 @@
 package com.fisheradelakin.vortex.ui;
 
-import android.annotation.TargetApi;
 import android.app.ListActivity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -32,6 +32,10 @@ public class DailyForecastActivity extends ListActivity {
     int color;
 
     private Day[] mDays;
+    private SharedPreferences mSharedPreferences;
+    public static final String MyPREFERENCES = "MyPrefs";
+    public static final String fKey = "F";
+    public static final String cKey = "C";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,8 @@ public class DailyForecastActivity extends ListActivity {
         } else {
             Toast.makeText(this, "something went wrong", Toast.LENGTH_SHORT).show();
         }
+
+        mSharedPreferences = getSharedPreferences(MyPREFERENCES, 0);
 
         changeStatusBarColor();
         /* END BACKGROUND COLOR STUFF */
@@ -70,12 +76,19 @@ public class DailyForecastActivity extends ListActivity {
 
         String dayOfTheWeek = mDays[position].getDayOfTheWeek();
         String conditions = mDays[position].getSummary();
-        String highTemp = mDays[position].getTemperatureMax() + "";
+        String highTemp = "";
+        if(mSharedPreferences.contains(cKey)) {
+            //mTemperatureLabel.setText((((hour.getTemperature() - 32) * 5) / 9) + "");
+            highTemp = (((mDays[position].getTemperatureMax() -32) * 5) / 9) + "";
+        } else if(mSharedPreferences.contains(fKey)) {
+            //mTemperatureLabel.setText(hour.getTemperature() + "");
+            highTemp = mDays[position].getTemperatureMax() + "";
+        }
         String message = String.format("On %s the high will be %s and it will be %s", dayOfTheWeek, highTemp, conditions);
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+
     public void changeStatusBarColor() {
         // generate a new color based on the background color for the status bar
         // using hsv because it makes it super easy bruh.
@@ -85,7 +98,7 @@ public class DailyForecastActivity extends ListActivity {
         int statusBarColor = Color.HSVToColor(hsv);
 
         // set status bar to a darker color of the background
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window w = getWindow();
             w.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             w.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);

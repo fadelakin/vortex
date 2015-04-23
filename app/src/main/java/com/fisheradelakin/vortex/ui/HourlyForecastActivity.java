@@ -1,12 +1,11 @@
 package com.fisheradelakin.vortex.ui;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Window;
@@ -24,7 +23,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import jp.wasabeef.recyclerview.animators.adapters.SlideInRightAnimationAdapter;
 
-public class HourlyForecastActivity extends ActionBarActivity {
+public class HourlyForecastActivity extends AppCompatActivity {
 
     private Hour[] mHours;
 
@@ -64,7 +63,6 @@ public class HourlyForecastActivity extends ActionBarActivity {
         changeStatusBarColor();
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void changeStatusBarColor() {
         // generate a new color based on the background color for the status bar
         // using hsv because it makes it super easy bruh.
@@ -74,12 +72,11 @@ public class HourlyForecastActivity extends ActionBarActivity {
         int statusBarColor = Color.HSVToColor(hsv);
 
         // set status bar to a darker color of the background
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window w = getWindow();
             w.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             w.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             w.setStatusBarColor(statusBarColor);
         }
     }
-
 }
