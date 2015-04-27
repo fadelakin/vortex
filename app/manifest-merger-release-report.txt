@@ -31,11 +31,11 @@ ADDED from AndroidManifest.xml:8:5
 		ADDED from AndroidManifest.xml:8:22
 application
 ADDED from AndroidManifest.xml:10:5
-MERGED from com.android.support:support-v4:22.1.0:22:5
-MERGED from com.android.support:appcompat-v7:22.1.0:22:5
-MERGED from com.android.support:support-v4:22.1.0:22:5
+MERGED from com.android.support:support-v4:22.1.1:22:5
+MERGED from com.android.support:appcompat-v7:22.1.1:22:5
+MERGED from com.android.support:support-v4:22.1.1:22:5
 MERGED from com.android.support:recyclerview-v7:22.1.0:22:5
-MERGED from com.android.support:support-v4:22.1.0:22:5
+MERGED from com.android.support:support-v4:22.1.1:22:5
 	android:label
 		ADDED from AndroidManifest.xml:13:9
 	android:allowBackup
@@ -86,11 +86,11 @@ ADDED from AndroidManifest.xml:33:9
 		ADDED from AndroidManifest.xml:34:13
 uses-sdk
 INJECTED from AndroidManifest.xml:0:0 reason: use-sdk injection requested
-MERGED from com.android.support:support-v4:22.1.0:20:5
-MERGED from com.android.support:appcompat-v7:22.1.0:20:5
-MERGED from com.android.support:support-v4:22.1.0:20:5
+MERGED from com.android.support:support-v4:22.1.1:20:5
+MERGED from com.android.support:appcompat-v7:22.1.1:20:5
+MERGED from com.android.support:support-v4:22.1.1:20:5
 MERGED from com.android.support:recyclerview-v7:22.1.0:20:5
-MERGED from com.android.support:support-v4:22.1.0:20:5
+MERGED from com.android.support:support-v4:22.1.1:20:5
 MERGED from jp.wasabeef:recyclerview-animators:1.1.0:8:5
 	android:targetSdkVersion
 		INJECTED from AndroidManifest.xml:0:0

@@ -9,6 +9,7 @@ import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
+import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
@@ -227,7 +228,77 @@ public class MainActivity extends AppCompatActivity {
 
         // Get Location through the network
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        boolean isEnabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        boolean gps_enabled = false, network_enabled = false;
+        try {
+            gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if(!gps_enabled && !network_enabled) {
+            alertUserAboutLocation();
+        } else {
+            LocationListener locationListener = new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+                    if(location != null) {
+                        mLatitude = location.getLatitude();
+                        mLongitude = location.getLongitude();
+
+                        float accuracyf = location.getAccuracy();
+                        String providerShown = location.getProvider();
+                        Log.i(TAG, "Provider: " + providerShown + ", Accuracy: " + accuracyf);
+                    }
+                }
+
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) {
+
+                }
+
+                @Override
+                public void onProviderEnabled(String provider) {
+
+                }
+
+                @Override
+                public void onProviderDisabled(String provider) {
+
+                }
+            };
+
+            Criteria criteria = new Criteria();
+            criteria.setAccuracy(Criteria.ACCURACY_FINE);
+            String provider = lm.getBestProvider(criteria, true);
+            Location mostRecentLocation = lm.getLastKnownLocation(provider);
+            if (mostRecentLocation != null) {
+                mLatitude = mostRecentLocation.getLatitude();
+                mLongitude = mostRecentLocation.getLongitude();
+            }
+
+            lm.requestLocationUpdates(provider, 2000, 10, locationListener);
+        }
+
+        // Get current city that user is in.
+        Geocoder gcd = new Geocoder(this, Locale.getDefault());
+        try {
+            List<Address> addresses = gcd.getFromLocation(mLatitude, mLongitude, 1);
+            if (addresses.size() > 0) {
+                // change location label to user's current location
+                String getLocality = addresses.get(0).getLocality();
+                mLocality.setText(getLocality);
+            }
+        } catch (IOException e) {
+            Log.e(TAG, "Exception caught: ", e);
+        }
+
+        /*boolean isEnabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
         if(isEnabled) {
             Location location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             mLatitude = location.getLatitude();
@@ -274,7 +345,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             // alert user using dialog fragment to turn on their location
             alertUserAboutLocation();
-        }
+        }*/
     }
 
     private void getForecast(String url) {
